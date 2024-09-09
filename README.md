@@ -1,2 +1,3 @@
 # website
-This is the repo for the RealityMedia website materials (reduced version) 2024
+This is the new website using w3.css and a template
+
