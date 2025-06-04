@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#region AFrame library and 3rd party components  -->
+        <script src="https://cdn.jsdelivr.net/npm/aframe@1.5.0/dist/aframe-master.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.4/dist/aframe-environment-component.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/components/sphere-collider.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/dist/physx.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls@0.4.3/dist/aframe-blink-controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.10/build/handy-controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.10/build/magnet-helpers.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe-htmlmesh@2.2.0/build/aframe-html.min.js"></script>
+        <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+
+        <script src="ar-shadow-helper.js"></script>
+        <script src="ar-cursor.js"></script>
+        <script src="simple-navmesh-constraint.js"></script>
+        <script src="model-utils.js"></script>
+        <!--#endregion -->
+      
+        <script src="../../assets/scene/navigation.js"></script>
+    
+        <title>Reality Media</title>
+        <meta property="og:title" content="Reality Media" />
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                overflow: hidden;
+            }
+            a-scene {
+                width: 100% !important;
+                height: 100% !important;
+            }
+        </style>
+    </head>
+      
+    <a-scene embedded resize
+    physx="autoLoad: true; delay: 1000; wasmUrl: https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/wasm/physx.release.wasm; useDefaultScene: false;"
+    webxr="overlayElement:#dom-overlay;"
+    background="color:skyblue;"
+    reflection="directionalLight:#dirlight;"
+    renderer="alpha:true;physicallyCorrectLights:true;colorManagement:true;exposure:1;toneMapping:ACESFilmic;"
+    ar-hit-test="target:#my-ar-objects;type:footprint;footprintDepth:0.2;"
+    shadow="type: pcfsoft"
+    ar-cursor raycaster="objects: #my-ar-objects a-sphere .collidable .interactive"
+    xr-mode-ui="XRMode:xr"
+    cursor="rayOrigin: mouse" 
+    id="mainScene"
+  >
+
+    <a-assets>
+      <a-mixin id="animations" animation__click="property: components.material.material.color; type: color; to: blue; startEvents: click; dur: 500;"></a-mixin>
+      <a-mixin id="blink" blink-controls="rotateOnTeleport:false;cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities:.navmesh;"></a-mixin>
+
+      
+      <a-asset-item id="frame" src="../../assets/scene/1-realitymedia/book_anim.glb
+      "></a-asset-item>
+
+      <!-- Onboarding -->
+      <a-asset-item id="onboarding" src="../../assets/scene/1-realitymedia/onboarding_clean.glb"></a-asset-item>
+      <a-asset-item id="book" src="../../assets/scene/1-realitymedia/book_anim.glb"></a-asset-item>
+          
+      <image id="Lumiere_img"src="../../assets/scene/1-realitymedia/Laciotat.png">
+      <image id="Chain_diagram_img"src="../../assets/scene/1-realitymedia/diagram_01.jpg">
+      <image id="VirtualityContinuum_img"src="../../assets/scene/1-realitymedia/Continuum.png">
+
+    
+      <!-- Chapter 1  
+      <a-asset-item id="chap1-glb" src="assets/Ch1-What-are/chapter1_main.glb"></a-asset-item>
+      <a-asset-item id="chap1-side-glb" src="assets/Ch1-What-are/chapter1_side.glb"></a-asset-item>
+      <img id="Milgram_img" src="assets/Ch1-What-are/milgram.jpg"> 
+      -->
+    </a-assets>
+
+    <!-- camera -->
+    <a-entity
+      id="cameraRig"
+      simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;"
+      movement-controls="speed:0.15;camera:#head;"
+      position="0 0 0" origin-on-ar-start>
+      
+      <!-- Player Position -->
+      <a-entity id="head"
+        camera="near:0.01;"
+        look-controls="pointerLockEnabled: false"
+        position="0 1.65 0">
+        <a-entity id="Acursor" cursor="rayOrigin: mouse" raycaster="objects: .interactive"></a-entity>
+      </a-entity>
+        <!-- start pos: position="0 1.65 0" -->
+        <!-- chapter 1: 29 1.65 -4.8 -->
+    </a-entity>
+
+     
+    <!-- ####################   -->
+    <!-- ########START#######   -->
+    <!-- ####################   -->
+
+
+    <a-entity id="Onboarding_Room" position="0 0 0">
+      <a-gltf-model src="#onboarding" id="onboarding"position="-26.5 0 -9"></a-gltf-model>
+      <!-- <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false"></a-gltf-model>  -->
+
+      <a-gltf-model src="#book" id="book_model" position="-4.68164 1.59002 -9.0211" gltf-model="assets/Onboarding/book_anim.glb" rotation="-8.460000000000003 91.20052 -3.14"></a-gltf-model>
+
+      <a-sphere color="black" radius="0.005" id="cursor" material="shader:flat" visible="false"></a-sphere>
+
+
+      <!-- ########################   -->
+      <!-- TEXTS & IMAGES & VIDEOS    -->
+      <!-- ########################  -->
+
+
+      <a-entity id="welcome_title_txt" position="-4.79101 2.1 -0.76187" rotation="0 90 0">
+        <a-entity position="0.18954 0.47498 0" text="color: white; align: center; letterSpacing: 0.62; lineHeight: 55; value: Welcome to Reality Media; baseline: top; width: 6; anchor: left; wrapCount: 30; xOffset: -1.14">
+        </a-entity>
+      </a-entity>
+
+      <a-entity id="welcome_txt" position="-4.79101 2.1 -0.755" rotation="0 90 0">
+        <a-entity  text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; 
+        value: Reality Media is a project encompassing three writing spaces, three technologies for representing ideas: print, the web, and immersive VR. The printed page is a writing space with a tradition dating back to the fifteenth century (in Europe, much earlier in China). Obviously the web has a far shorter tradition, beginning around 1990. But in the thirty year since Tim Berners-Lee launched the first web server, the web has grown to rival print for many kinds of communication. The technologies for creating 3D graphic spaces in VR (and AR) actually predate the web. But only in the past 10 years have AR and VR become widely available media. The goal of RealityMedia is to demonstrate the potential range of AR and VR as communicative forms.; 
+        width: 3; anchor: left; wrapCount: 65;">
+        </a-entity>
+      </a-entity>
+
+      <a-entity id="Overview" position="-4.79101 2.1 -3.894" rotation="0 90 0">
+      
+        <a-entity  text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; 
+        value: Each gallery in this “immersive book” corresponds to one or more chapters in the printed book and illustrates the themes of the printed chapter(s). (See the map on the far wall for the names/themes of the galleries.) For example, the gallery entitled “Presence” illustrates both presence and the related concept of aura and how computer scientists as well as filmmakers and designers have tried to evoke these reactions in visitors to their immersive applications.; 
+        width: 3; anchor: left; wrapCount: 65">
+        </a-entity>
+    </a-entity>
+
+  
+    <a-entity id="MitPress" position="-4.79101 2 -9.076" rotation="0 90 0">
+      <!-- <a-image id="MitPress_book" src="assets/Onboarding/realityMediaBook.jpg" material="" geometry="height: 2; width: 1.5" position="0.05251 -0.34161 0.003" scale="0.8 0.8 0.8"></a-image> -->
+      <a-entity  position="1 0.2 0" text="color: white; align: left; letterSpacing: 5; lineHeight: 55; 
+      value: Published by MIT Press;
+      baseline: top; width: 3; anchor: left; wrapCount: 55;">
+      </a-entity>
+      <a-entity position="1 0 0" text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; 
+      value: By Jay David Bolter, Maria Engberg and Blair MacIntyre \n \n How augmented reality and virtual reality are taking their places in contemporary media culture alongside film and television.; 
+      width: 1.5; anchor: left; wrapCount: 32.5;">
+      </a-entity>
+     </a-entity>
+
+
+  
+     <a-entity id="Chain_diagram" position="4.11809 1.3523 -0.63199" rotation="0 -90 0">
+      <a-image src="#Chain_diagram_img" material="" position="-0.02905 0.66416 0" geometry="height: 0.92; width: 1.53" scale="0.7 0.7 0.7"></a-image>
+      <a-gltf-model src="#frame" position="-0.02905 0.64822 -0.07299" gltf-model="assets/General/simple_picture.glb" rotation="0 -180 90" scale="0.57 0.81 1"></a-gltf-model>
+
+      <a-entity position="-0.78711 0.13934 0" text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: VR closely resembles film in that you make the decision to step outside your daily life for a period of time and into a fashioned reality. 
+      AR functions like television in that they both are consumed casually and provide hybrid experiences.; width: 1.56; anchor: left; wrapCount: 45.6">
+      </a-entity>
+    </a-entity>
+
+      <a-entity id="Whatare_title_txt" position="4.17409 2.524 -12.99495" rotation="0 -90 0">
+        <a-entity position="" text="color: white; align: center; letterSpacing: 0.62; lineHeight: 55; value: What Are Reality Media?; baseline: top; width: 4.77; anchor: left; wrapCount: 30; xOffset: -1.14">
+        </a-entity>
+      </a-entity>
+
+      <a-entity id="Lumiere" position="4.19107 1.901 -13.3" rotation="0 -90 0">
+        <a-image src="#Lumiere_img" material="" geometry="height: 1.55; width: 2.81" position="4.60818 -0.42461 0.063" scale="0.8 0.8 0.8"></a-image>
+        <a-gltf-model src="#frame" position="4.61965 -0.4059 0.05312" gltf-model="assets/General/simple_picture.glb" rotation="0 -180 90" scale="0.99 1.38 1"></a-gltf-model>
+        <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: As film historian Tom Gunning argues, the audience probably did not believe in the reality of the train. They were astonished, not fooled, because they had never seen a medium so real. Yet they still new they were experiencing a medium. ; width: 1.48; anchor: left; wrapCount: 35.43" position="0 0.17415 0">
+        </a-entity><a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: This knowing astonishment is what we call the La Ciotat effect, and it is the effect  that each reality medium has. Each reality medium mediates and remediates. It offers a new representation of the world that we implicitly compare  to our experience of the world in itself, but also through other media.; width: 1.48; anchor: left; wrapCount: 35.43" position="1.66667 0.17415 0">
+        </a-entity>
+      </a-entity>
+
+  
+
+
+      <a-entity id="VirtualityContinuum" position="4.20064 2.10507 -6.72829" rotation="0 -90 0">
+        <a-image src="#VirtualityContinuum_img" material="" geometry="height: 1.55; width: 2.81" position="1.20766 -0.50199 0.00368" scale="0.75707 0.58951 5.63979"></a-image>
+        <a-gltf-model src="#frame" position="1.20732 -0.48797 -0.0057" gltf-model="assets/General/simple_picture.glb" rotation="0 -180 90" scale="0.84 1.45 1"></a-gltf-model>
+        <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: In the 1990s, when both VR and AR were still laboratory technologies, two researchers, Paul Milgram and Fumio Kishino, diagrammed what they called the virtuality continuum, a spectrum with the real environment the physical world at one end and the complete virtual environment at the other. Milgram and Kishino 1994. Milgram et al. 1995. They placed augmented reality and augmented virtuality as intermediate points between these endpoints.; width: 1.95; anchor: left; wrapCount: 41.75" position="2.54605 -0.0382 0">
+        </a-entity>
+        </a-entity>
+      </a-entity>
+    </a-entity>
+</a-entity>
+
+
+   
+
+
+</a-entity>
+
+
+
+
+  <!-- WHAT ARE REALITY MEDIA 
+    <a-entity id="chapter1_scene" position="29.02208 0 -4.81265">
+        <a-gltf-model src="#chap1-glb" id="chap1"></a-gltf-model>
+
+         
+        <a-entity id="Chain_diagram" position="-4.4241 1.520 3.533" rotation="0 90 0">
+            <a-image src="#Chain_diagram_img" material="" position="-0.02905 0.66416 -0.04201" geometry="height: 0.92; width: 1.53"></a-image>
+            <a-entity  position="-0.867 0 0" text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; 
+            value: VR closely resembles film in that you make the decision to step outside your daily life for a period of time and into a fashioned reality. 
+            AR functions like television in that they both are consumed casually and provide hybrid experiences.; 
+            width: 1.7; anchor: left; wrapCount: 40.27">
+            </a-entity>
+        </a-entity>
+
+        
+
+        <a-entity id="ARVR_table" position="-4.448 1.323 2.088" rotation="0 90 0">
+            <a-image src="ARVR_table_img" material="" geometry="height: 1.34; width: 2.5" position="1.39244 0.93669 -0.00162"></a-image>
+            <a-entity  text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; 
+            value: Film, television, VR and AR each remediate reality according to their characteristics and genres: offering a view of our world or a fictive world, in the present or past, and with or without user interaction.; 
+            width: 2.850; anchor: left; wrapCount: 63">
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="TV_seeit" position="-2.59546 2 -9.96264" rotation="0 0 0">
+            <a-entity  text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; 
+            value: Television created imagined realities, like film, but it also offered views into our current world, particularly through news and sportscasts. Television's special claim to reality is that, unlike film, these views could be live, experienced in what we now call real time.  ; 
+            width: 3; anchor: left; wrapCount: 65">
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="see-it-video-src" position="1.512 2 -9.96264" rotation="0 0 0">
+            <a-entity  text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; 
+            value: see it now video.  ; 
+            width: 3; anchor: left; wrapCount: 65">
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="Lumiere" position="4.495 1.773 -1.601" rotation="0 -90 0">
+            <a-image src="Lumiere_img" material="" geometry="height: 1.55; width: 2.81" position="4.77314 -0.24723 0.063"></a-image>
+            <a-entity  text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; 
+            value: As film historian Tom Gunning argues, the audience probably did not believe in the reality of the train. They were astonished, not fooled, because they had never seen a medium so real. Yet they still new they were experiencing a medium. This knowing astonishment is what we call the La Ciotat effect, and it is the effect  that each reality medium has. Each reality medium mediates and remediates. It offers a new representation of the world that we implicitly compare  to our experience of the world in itself, but also through other media.; 
+            width: 3; anchor: left; wrapCount: 65">
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="Laciotat_portal" position="4.49536 1.73016 -5.83742" rotation="0 -90 0">
+            <a-entity  text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; 
+            value: Step through this portal to enter the Salon Indien du Grand Café and experience the La Ciotat effect for yourself.; 
+            width: 1.770; anchor: left; wrapCount: 35.76">
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="Lanier" position="-4.70985 1.89959 -8.65342" rotation="0 -90 0">
+            <a-entity position="0 0.2 0" text="color: black; align: center; letterSpacing: 5; lineHeight: 55; 
+            value: Jaron Lanier, Pioneer of VR; 
+            baseline: top; width: 3; anchor: left; wrapCount: 55;">
+            </a-entity>
+            <a-entity  text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; 
+            value: In 1984, Jaron Lanier founded VPL Research, one of the first companies to build and market VR systems. VPL Research pioneered systems and techniques. The VPL’s Eyephone headset presented a polished version of the technology that was well-suited to Hollywood’s notion of VR as a sci-fi technology in the Star Wars decade. Comparing the Eyephone to Ivan Sutherland’s Sword of Damocles, we see not only how far the technology had progressed since the late 1960s, but also how it was becoming oriented to a world of entertainment and popular consumption. ; 
+            width: 3; anchor: left; wrapCount: 65;">
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="Oculus" position="-6.77892 1.89959 4.89747" rotation="0 180 0">
+            <a-entity  text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; 
+            value: For decades enthusiasts promised that VR would become the next mass medium. Although consumer products began to show up in the 1990s and some game emporiums were offering customers the chance to put on a crude headset for a few minutes of play, VR remained a novelty. The breakthrough came with the Oculus headset in the 2010s. Now relatively inexpensive headsets are available for VR gaming and other applications, permitting VR to claim a significant place in our media economy. ; 
+            width: 3; anchor: left; wrapCount: 65">
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="Sutherland" position="-4.71662 1.9 0.25841" rotation="0 -90 0">
+            <a-entity position="0 0.2 0" text="color: black; align: center; letterSpacing: 5; lineHeight: 55; 
+            value: Sword of Damocles; 
+            baseline: top; width: 3; anchor: left; wrapCount: 55;">
+            </a-entity>
+                <a-entity  text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; 
+            value: In the 1990s, when both VR and AR were still laboratory technologies, two researchers, Paul Milgram and Fumio Kishino, diagrammed what they called the virtuality continuum, a spectrum with the real environment the physical world at one end and the complete virtual environment at the other. Milgram and Kishino 1994. Milgram et al. 1995. They placed augmented reality and augmented virtuality as intermediate points between these endpoints. ; 
+            width: 3; anchor: left; wrapCount: 65">
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="Milgram" position="-13.69746 1.9 -0.82656" rotation="0 90 0">
+            <a-entity text='value: Milgram; color: black; letterSpacing: 5; baseline: top; lineHeight: 55;  
+            width: 3; anchor: left; wrapCount: 65;'>
+            </a-entity>
+        </a-entity>
+
+        <a-image src="#Milgram_img" position="-13.65142 1.61842 2.08473" rotation="0 90 0" material="" geometry="height: 0.5; width: 2.5"></a-image> 
+
+    </a-entity>
+  -->
+
+
+    </a-scene>
+
+
+    <script> 
+   
+    
+    </script>
+    <!-- <script src="video-player.js"></script> -->
+
+</body>
+</html>

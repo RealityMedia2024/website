@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#region AFrame library and 3rd party components  -->
+        <script src="https://cdn.jsdelivr.net/npm/aframe@1.5.0/dist/aframe-master.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.4/dist/aframe-environment-component.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/components/sphere-collider.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/dist/physx.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls@0.4.3/dist/aframe-blink-controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.10/build/handy-controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.10/build/magnet-helpers.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe-htmlmesh@2.2.0/build/aframe-html.min.js"></script>
+        <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+
+        <script src="ar-shadow-helper.js"></script>
+        <script src="ar-cursor.js"></script>
+        <script src="simple-navmesh-constraint.js"></script>
+        <script src="model-utils.js"></script>
+        <!--#endregion -->
+      
+        <script src="../../assets/scene/navigation.js"></script>
+    
+        <title>Reality Media</title>
+        <meta property="og:title" content="Reality Media" />
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                overflow: hidden;
+            }
+            a-scene {
+                width: 100% !important;
+                height: 100% !important;
+            }
+        </style>
+    </head>
+      
+    <a-scene embedded resize
+    physx="autoLoad: true; delay: 1000; wasmUrl: https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/wasm/physx.release.wasm; useDefaultScene: false;"
+    webxr="overlayElement:#dom-overlay;"
+    background="color:skyblue;"
+    reflection="directionalLight:#dirlight;"
+    renderer="alpha:true;physicallyCorrectLights:true;colorManagement:true;exposure:1;toneMapping:ACESFilmic;"
+    ar-hit-test="target:#my-ar-objects;type:footprint;footprintDepth:0.2;"
+    shadow="type: pcfsoft"
+    ar-cursor raycaster="objects: #my-ar-objects a-sphere .collidable .interactive"
+    xr-mode-ui="XRMode:xr"
+    cursor="rayOrigin: mouse" 
+    id="mainScene"
+  >
+
+    <a-assets>
+      <a-mixin id="animations" animation__click="property: components.material.material.color; type: color; to: blue; startEvents: click; dur: 500;"></a-mixin>
+      <a-mixin id="blink" blink-controls="rotateOnTeleport:false;cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities:.navmesh;"></a-mixin>
+
+      
+      <!-- <a-asset-item id="kelsonFont" src="https://cdn.aframe.io/fonts/KelsonSans.fnt"></a-asset-item> -->
+
+      <a-asset-item id="frame" src="../../assets/scene/1-realitymedia/book_anim.glb
+      "></a-asset-item>
+
+      <!-- Presence and Aura -->
+      <!-- buildings -->
+      <a-asset-item id="presence_building" src="../../assets/scene/5-presence/presence_building.glb">
+  
+        <!-- <video id="seeitnow_vid" loop="true" src="assets/Ch1-What-are/seeitnow.mp4"></video> -->
+        <video id="treehugger_vid"  loop="true" src="../../assets/scene/5-presence/videos/treehugger.mp4"></video>
+        <!-- <video id="Terracotta_vid"  loop="true" src="../../assets/scene/5-presence/videos/Terracotta.mp4"></video> -->
+        <!-- <video id="Rollercoaster_vid"  loop="true" src="../../assets/scene/5-presence/videos/Rollercoaster.mp4"></video> -->
+        <!-- <video id="Plank_vid"  loop="true" src="../../assets/scene/5-presence/videos/Plank.mp4"></video> -->
+        <video id="Nonnie_vid"  loop="true" src="../../assets/scene/5-presence/videos/Nonnie.mp4"></video>
+        <video id="Milk_vid"  loop="true" src="../../assets/scene/5-presence/videos/Milk.mp4"></video>
+        <!-- <video id="Mother_vid"  loop="true" src="assets/Ch5-Presence/Videos/Mother.mp4"></video> -->
+        <video id="Metaverse_vid"  loop="true" src="../../assets/scene/5-presence/videos/Metaverse.mp4"></video>
+        <!-- <video id="Gaudi_vid"  loop="true" src="assets/Ch5-Presence/Videos/Gaudi.mp4"></video> -->
+        
+      
+        <!-- images -->
+        <img id="PitAR_img_src" src="../../assets/scene/5-presence/pitAR_picture.jpg">
+        <img id="Cloud_img_src" src="../../assets/scene/5-presence/cloudsoverSidra.jpg.jpg">
+        <img id="Nonnie_img_src" src="../../assets/scene/5-presence/nonnie1.jpg">
+        <img id="Gaudi_img_src" src="../../assets/scene/5-presence/gaudi.jpg">
+        <img id="Laciotat_img_src" src="../../assets/scene/5-presence/Laciotat.png">
+        <img id="Terracotta_img_src" src="../../assets/scene/5-presence/terracotta.jpg.jpg">
+        <img id="Space_img_src" src="../../assets/scene/5-presence/SpaceAndPlace.jpg">
+     
+    
+      <!-- Chapter 1  
+      <a-asset-item id="chap1-glb" src="assets/Ch1-What-are/chapter1_main.glb"></a-asset-item>
+      <a-asset-item id="chap1-side-glb" src="assets/Ch1-What-are/chapter1_side.glb"></a-asset-item>
+      <img id="Milgram_img" src="assets/Ch1-What-are/milgram.jpg"> 
+      -->
+    </a-assets>
+
+    <!-- camera -->
+    <a-entity
+      id="cameraRig"
+      simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;"
+      movement-controls="speed:0.15;camera:#head;"
+      position="0 0 0" origin-on-ar-start>
+      
+      <!-- Player Position -->
+      <a-entity id="head"
+        camera="near:0.01;"
+        look-controls="pointerLockEnabled: false"
+        position="0 1.65 0">
+        <a-entity id="Acursor" cursor="rayOrigin: mouse" raycaster="objects: .interactive"></a-entity>
+      </a-entity>
+        <!-- start pos: position="0 1.65 0" -->
+        <!-- chapter 1: 29 1.65 -4.8 -->
+    </a-entity>
+
+     
+    <!-- ####################   -->
+    <!-- ########START#######   -->
+    <!-- ####################   -->
+
+
+    <!-- Presence and Aura -->
+  <a-entity id="Presence_Room" position="0 0 0">
+    <a-entity id="Presence_Buildings"  scale="2 3 2">
+      <!-- <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false"></a-gltf-model>  -->
+      <a-gltf-model src="#presence_building"></a-gltf-model>
+      
+    </a-entity>
+
+    <a-entity id="Treehugger" position="-9 1.91074 7.24981" rotation="0 90 0">
+        <a-entity position="0 0.43175 0" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: white; align: right; letterSpacing: 5; lineHeight: 55; value: Treehugger: Wawona; baseline: top; width: 3; anchor: left; wrapCount: 44.31; xOffset: -0.94">
+        </a-entity>
+        <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Treehugger: Wawona VR experience transports the users to the red giant Sequoia trees from the Sequoia National Park. It provides a sense of intimacy with the tree - with its bark, with the cells that make up its being. The vividness of the work illustrates presence; width: 1.55; anchor: left; wrapCount: 31.2; align: right" position="0.491 0.09147 0">
+        </a-entity>
+      </a-entity>
+
+    <a-entity id="treehugger_video_ent" position="-8.969 2.106 2.22023" rotation="0 90 0">
+      <a-video src="#treehugger_vid" width="5" height="3"></a-video>
+    </a-entity>
+
+
+    <a-entity id="Definitions_Presence" position="8.93 4.40203 0.74323" rotation="0 -90 0">
+      <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: To look further, Lombard and Ditton's classification of presence is useful. They grouped definitions of presence into two categories, which are; width: 2.57; anchor: left; wrapCount: 34.42" position="0.31652 -2.03742 0">
+      </a-entity><a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Presence is a kind of absence, the absence of mediation. If the users can forget that the medium is there, then they feel presence.; width: 5.56; anchor: left; wrapCount: 45" position="-4.14153 -0.93537 0">
+      </a-entity><a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: (1) individual perception of the world \n\n  (2) social interaction and engagement with others \n\n      The first category includes presence as transportation, as immersion and as realism. \n\n        ; width: 2.57; anchor: left" position="3.27559 -2.08442 0">
+      </a-entity>
+    </a-entity>
+
+
+    <a-entity id="metaverse_video" position="-1.758 2.65 -19.89">
+      <a-video src="#Metaverse_vid" width="6" height="4" ></a-video>
+    </a-entity> 
+
+    <a-entity position="-4.25845 5.52184 -19.89" scale="3 3 3">
+      <a-text value="Social Presence"></a-text>
+    </a-entity>
+
+    
+     <a-entity id="Milk_video" position="-27.38 2.8 2.889" rotation="0 90 0">
+      <a-video src="#Milk_vid" width="6" height="4" material="" geometry="" position="3.2533 0 0"></a-video> 
+   </a-entity>
+   
+   <a-image id="Cloud_img" src="#Cloud_img_src" position="-27.38 2.24749 7.67676" rotation="0 90 0" scale="2 2 2" material="" geometry="width: 0.8"></a-image>
+
+   <a-entity id="Milk_info" position="-27.39488 3.29681 8.04544" rotation="0 90 0">
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Ultimate Empathy Machine; width: 4.04; anchor: left; wrapCount: 27.72" position="-0.51301 0.49307 0">
+    </a-entity>
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: 360 degree film Clouds Over Sidra created by Chris Milk and Gabo Arora shows the life of Syrian refugees in Za'atari camp in Jordan. The camera follows 12-year old Sidra in her everyday life, allowing the users to be present with Sidra.; width: 2.91; anchor: left; wrapCount: 45.9" position="1.54258 -0.06729 0">
+    </a-entity><a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: When you’re inside of the headset . . . you see full 360 degrees, in all directions. And when you’re sitting there in her room, watching her, you are not watching it through a television screen, you’re not watching it through a window, you’re sitting there with her. When you look down, you are sitting on the same ground that she’s sitting on. And because of that, you feel her humanity in a deeper way. You empathize with her in a deeper way. (Milk 2015); width: 2.61; anchor: left; wrapCount: 51.22" position="2.44735 -0.96439 0">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="Empathy" position="-27.39488 3.29681 -4.79366" rotation="0 90 0">
+    <a-entity text="color: #ffffff; letterSpacing: 1.67; baseline: top; lineHeight: 42.85; value: Presence and Empathy; width: 10.05; anchor: left; wrapCount: 30; font: https://cdn.aframe.io/fonts/KelsonSans.fnt; transparent: false; alphaTest: 0.75" position="-2.08258 3.72509 0" scale="">
+    </a-entity>
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Researchers have long pursued the idea of emotional reactions such as empathy as a test of presence.; width: 2.78; anchor: left; wrapCount: 35" position="-0.51467 0.1766 0">
+    </a-entity><a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: VR is  understood as getting us closer to the authentic or the real. But forgetting the medium is not necessary for a sense of presence. Presence can be understood in a more nuanced way as a liminal zone between forgetting and acknowledging VR as a medium.; width: 3.03; anchor: left" position="1.10413 -0.73063 0">
+    </a-entity>
+  </a-entity>
+
+  <a-entity id="Nonnie_video" position="-27.38 2.8 -13.34445" rotation="0 90 0">
+    <a-video src="#Nonnie_vid" width="6" height="4" material="" geometry="" position="-0.69246 0 0"></a-video>
+ </a-entity>
+ 
+
+ <a-entity id="Nonnie_info" position="-27.39488 2.79044 -17.45949" rotation="0 90 0">
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: The future of news?; width: 4.04; anchor: left; wrapCount: 27.72" position="-1.48273 0.52603 0">
+    </a-entity>
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Ted Talk called 'The future of news?''  introduces a new form of journalism where Virtual Reality technology is used to put audience inside the stories. In her work, she created VR stories about imprisonment in Guantanamo and hunger in Los Angeles to induce empathy in the audience.; width: 3.4; anchor: left; wrapCount: 45.9" position="-1.46382 -0.06729 0">
+    </a-entity>
+  </a-entity>
+
+  
+</a-entity>
+
+
+
+
+
+
+    </a-scene>
+
+
+    <script> 
+   
+    
+    </script>
+    <!-- <script src="video-player.js"></script> -->
+
+</body>
+</html>
