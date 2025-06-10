@@ -19,8 +19,9 @@
         <script src="model-utils.js"></script>
         <!--#endregion -->
       
-        <script src="../../assets/scene/navigation.js"></script>
-    
+        <script src="navigation.js"></script>
+        <script src="video_trigger.js"></script>
+
         <title>Reality Media</title>
         <meta property="og:title" content="Reality Media" />
         <!-- <link rel="stylesheet" href="style.css"> -->
@@ -67,7 +68,9 @@
       <a-asset-item id="presence_building" src="../../assets/scene/5-presence/presence_building.glb">
   
         <!-- <video id="seeitnow_vid" loop="true" src="assets/Ch1-What-are/seeitnow.mp4"></video> -->
-        <video id="treehugger_vid"  loop="true" src="../../assets/scene/5-presence/videos/treehugger.mp4"></video>
+        <video id="treehugger_vid"  loop="true" src="../../assets/scene/5-presence/videos/treehugger.mp4" crossorigin="anonymous" playsinline loop></video>
+
+        
         <!-- <video id="Terracotta_vid"  loop="true" src="../../assets/scene/5-presence/videos/Terracotta.mp4"></video> -->
         <!-- <video id="Rollercoaster_vid"  loop="true" src="../../assets/scene/5-presence/videos/Rollercoaster.mp4"></video> -->
         <!-- <video id="Plank_vid"  loop="true" src="../../assets/scene/5-presence/videos/Plank.mp4"></video> -->
@@ -135,9 +138,11 @@
       </a-entity>
 
     <a-entity id="treehugger_video_ent" position="-8.969 2.106 2.22023" rotation="0 90 0">
-      <a-video src="#treehugger_vid" width="5" height="3"></a-video>
+      <a-video id="tree_video" src="#treehugger_vid" width="5" height="3"></a-video>
+      
     </a-entity>
-
+    <a-entity id="video-plane-a" geometry="primitive: plane; width: 4; height: 4" position="-6.30217 0 1.91445" video-trigger="target: #cameraRig; video: #tree_video; debug: true" rotation="-90 90 0">
+    </a-entity>
 
     <a-entity id="Definitions_Presence" position="8.93 4.40203 0.74323" rotation="0 -90 0">
       <a-entity text="color: white; letterSpacing: 2; baseline: top; lineHeight: 55; value: What is Presence?; width: 10; anchor: left; wrapCount: 34.42" position="-5.5131 -1.2455 0">
@@ -320,7 +325,12 @@
 
 
     <script> 
-   
+    // document.addEventListener('click', () => {
+    // const video = document.querySelector('#treehugger_vid');
+    // video.play().catch(err => {
+    //   console.warn('Autoplay blocked. User must interact before video can play.');
+    // });
+  });
     
     </script>
     <!-- <script src="video-player.js"></script> -->
