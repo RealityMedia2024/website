@@ -20,7 +20,6 @@
         <!--#endregion -->
       
         <script src="navigation.js"></script>
-        <script src="video_trigger.js"></script>
 
         <title>Reality Media</title>
         <meta property="og:title" content="Reality Media" />
@@ -39,7 +38,7 @@
         </style>
     </head>
       
-    <a-scene embedded resize
+    <a-scene inspector embedded resize
     physx="autoLoad: true; delay: 1000; wasmUrl: https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/wasm/physx.release.wasm; useDefaultScene: false;"
     webxr="overlayElement:#dom-overlay;"
     background="color:skyblue;"
@@ -47,9 +46,7 @@
     renderer="alpha:true;physicallyCorrectLights:true;colorManagement:true;exposure:1;toneMapping:ACESFilmic;"
     ar-hit-test="target:#my-ar-objects;type:footprint;footprintDepth:0.2;"
     shadow="type: pcfsoft"
-    ar-cursor raycaster="objects: #my-ar-objects a-sphere .collidable .interactive"
     xr-mode-ui="XRMode:xr"
-    cursor="rayOrigin: mouse" 
     id="mainScene"
   >
 
@@ -71,14 +68,13 @@
         <video id="treehugger_vid"  loop="true" src="../../assets/scene/5-presence/videos/treehugger.mp4" crossorigin="anonymous" playsinline loop></video>
 
         
-        <!-- <video id="Terracotta_vid"  loop="true" src="../../assets/scene/5-presence/videos/Terracotta.mp4"></video> -->
-        <!-- <video id="Rollercoaster_vid"  loop="true" src="../../assets/scene/5-presence/videos/Rollercoaster.mp4"></video> -->
-        <!-- <video id="Plank_vid"  loop="true" src="../../assets/scene/5-presence/videos/Plank.mp4"></video> -->
-        <video id="Nonnie_vid"  loop="true" src="../../assets/scene/5-presence/videos/Nonnie.mp4"></video>
-        <video id="Milk_vid"  loop="true" src="../../assets/scene/5-presence/videos/Milk.mp4"></video>
-        <!-- <video id="Mother_vid"  loop="true" src="assets/Ch5-Presence/Videos/Mother.mp4"></video> -->
-        <video id="Metaverse_vid"  loop="true" src="../../assets/scene/5-presence/videos/Metaverse.mp4"></video>
-        <!-- <video id="Gaudi_vid"  loop="true" src="assets/Ch5-Presence/Videos/Gaudi.mp4"></video> -->
+        <video id="Terracotta_vid"  loop="true" src="../../assets/scene/5-presence/videos/Terracotta.mp4" crossorigin="anonymous" playsinline></video> -->
+        <video id="Rollercoaster_vid"  loop="true" src="../../assets/scene/5-presence/videos/Rollercoaster.mp4" crossorigin="anonymous" playsinline></video>
+        <video id="Plank_vid"  loop="true" src="../../assets/scene/5-presence/videos/Plank.mp4" crossorigin="anonymous" playsinline></video>
+        <video id="Nonnie_vid"  loop="true" src="../../assets/scene/5-presence/videos/Nonnie.mp4" crossorigin="anonymous" playsinline></video>
+        <video id="Milk_vid"  loop="true" src="../../assets/scene/5-presence/videos/Milk.mp4" crossorigin="anonymous" playsinline></video>        
+        <video id="Metaverse_vid"  loop="true" src="../../assets/scene/5-presence/videos/Metaverse.mp4" crossorigin="anonymous" playsinline></video>
+        <video id="Gaudi_vid"  loop="true" src="../../assets/scene/5-presence/videos/Gaudi.mp4" crossorigin="anonymous" playsinline></video>
         
       
         <!-- images -->
@@ -90,7 +86,7 @@
         <img id="Terracotta_img_src" src="../../assets/scene/5-presence/terracotta.jpg.jpg">
         <img id="Space_img_src" src="../../assets/scene/5-presence/SpaceAndPlace.jpg">
      
-    
+        <img id="homeThumbnail" src="../../assets/scene/5-presence/acropolis.png">
       <!-- Chapter 1  
       <a-asset-item id="chap1-glb" src="assets/Ch1-What-are/chapter1_main.glb"></a-asset-item>
       <a-asset-item id="chap1-side-glb" src="assets/Ch1-What-are/chapter1_side.glb"></a-asset-item>
@@ -110,7 +106,14 @@
         camera="near:0.01;"
         look-controls="pointerLockEnabled: false"
         position="0 1.65 0">
-        <a-entity id="Acursor" cursor="rayOrigin: mouse" raycaster="objects: .interactive"></a-entity>
+        <!-- <a-entity id="Acursor" cursor="rayOrigin: mouse" raycaster="objects: .interactive"></a-entity> -->
+        <a-entity
+        id="cursor"
+        cursor="rayOrigin: mouse"
+        raycaster="objects: .interactive"
+        position="0 0 -1">
+      </a-entity>
+
       </a-entity>
         <!-- start pos: position="0 1.65 0" -->
         <!-- chapter 1: 29 1.65 -4.8 -->
@@ -123,26 +126,43 @@
 
 
     <!-- Presence and Aura -->
-  <a-entity id="Presence_Room" position="0 0 0">
+  <a-entity id="Presence_Room"  class="hide-on-zoom" position="0 0 0">
     <a-entity id="Presence_Buildings"  scale="2 3 2">
       <!-- <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false"></a-gltf-model>  -->
       <a-gltf-model src="#presence_building"></a-gltf-model>
       
     </a-entity>
 
-    <a-entity id="Treehugger" position="-9 1.91074 7.24981" rotation="0 90 0">
-        <a-entity position="0 0.43175 0" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: white; align: right; letterSpacing: 5; lineHeight: 55; value: Treehugger: Wawona; baseline: top; width: 3; anchor: left; wrapCount: 44.31; xOffset: -0.94">
-        </a-entity>
-        <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Treehugger: Wawona VR experience transports the users to the red giant Sequoia trees from the Sequoia National Park. It provides a sense of intimacy with the tree - with its bark, with the cells that make up its being. The vividness of the work illustrates presence; width: 1.55; anchor: left; wrapCount: 31.2; align: right" position="0.491 0.09147 0">
-        </a-entity>
+    <a-entity id="Treehugger" position="-9 2.12061 7.24981" rotation="0 90 0">
+      <a-entity position="0 0.43175 0" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: white; align: right; letterSpacing: 5; lineHeight: 55; value: Treehugger: Wawona; baseline: top; width: 3; anchor: left; wrapCount: 44.31; xOffset: -0.94">
       </a-entity>
+      <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Treehugger: Wawona VR experience transports the users to the red giant Sequoia trees from the Sequoia National Park. It provides a sense of intimacy with the tree - with its bark, with the cells that make up its being. The vividness of the work illustrates presence; width: 1.55; anchor: left; wrapCount: 31.2; align: right" position="0.491 0.09147 0">
+      </a-entity>
+    </a-entity>
 
     <a-entity id="treehugger_video_ent" position="-8.969 2.106 2.22023" rotation="0 90 0">
-      <a-video id="tree_video" src="#treehugger_vid" width="5" height="3"></a-video>
+      <a-video id="tree_video" src="#treehugger_vid" width="5" height="3" loop muted autoplay playsinline crossorigin="anonymous"></a-video>
       
+      <a-entity class="vid_player" position="-4.17092 -1.25787 -0.02481" scale="0.8 0.8 0.8">
+        <a-triangle id="tri" position="0.0036 0 0" height="0.3" color="white" rotation="0 0 -90" class="interactive" event-set__click="_event: click; _target: #tree_video; visible: true" play-video="target: #tree_video" material="" geometry="" scale="0.3 0.3 0.3"></a-triangle>
+        
+        <a-plane position="0.4 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+        <a-plane position="0.55 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+        
+        <!-- pause invisible -->
+        <a-plane position="0.475 0 0" width="0.25" height="0.35" material="opacity: 0.001; transparent: true" class="interactive" pause-video="target: #tree_video" geometry="">
+        </a-plane>
+        
+        <!-- ⏹ Stop -->
+        <a-plane position="1.32132 0 0" width="0.3" height="0.3" color="white" class="interactive" stop-video="target: #tree_video" material="" geometry="">
+        </a-plane>
+      </a-entity>
     </a-entity>
-    <a-entity id="video-plane-a" geometry="primitive: plane; width: 4; height: 4" position="-6.30217 0 1.91445" video-trigger="target: #cameraRig; video: #tree_video; debug: true" rotation="-90 90 0">
-    </a-entity>
+
+
+
+    <!-- <a-entity id="video-plane-a" geometry="primitive: plane; width: 4; height: 4" position="-6.30217 0 1.91445" video-trigger="target: #cameraRig; video: #tree_video; debug: true" rotation="-90 90 0">
+    </a-entity> -->
 
     <a-entity id="Definitions_Presence" position="8.93 4.40203 0.74323" rotation="0 -90 0">
       <a-entity text="color: white; letterSpacing: 2; baseline: top; lineHeight: 55; value: What is Presence?; width: 10; anchor: left; wrapCount: 34.42" position="-5.5131 -1.2455 0">
@@ -152,18 +172,34 @@
       </a-entity>
     </a-entity>
 
-    <a-entity id="metaverse_video" position="-1.758 2.65 -19.89">
-      <a-video src="#Metaverse_vid" width="6" height="4" material="" geometry="" position="-1.30365 0 0"></a-video>
+    <a-entity id="metaverse_video_ent" position="-5.20986 2.65 -19.89">
+      <a-video id="metaverse_video" src="#Metaverse_vid" width="6" height="4" material="" geometry="" position="" loop="" muted="" autoplay="" playsinline="" crossorigin="anonymous"></a-video>
+
+      <a-entity class="vid_player" position="3.63882 -1.64442 0.1" scale="0.8 0.8 0.8">
+        <a-triangle position="0.0036 0 0" height="0.3" color="white" rotation="0 0 -90" class="interactive" event-set__click="_event: click; _target: #metaverse_video; visible: true" play-video="target: #metaverse_video" material="" geometry="" scale="0.3 0.3 0.3"></a-triangle>
+        
+        <a-plane position="0.4 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+        <a-plane position="0.55 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+        
+        <!-- pause invisible -->
+        <a-plane position="0.475 0 0" width="0.25" height="0.35" material="opacity: 0.001; transparent: true" class="interactive" pause-video="target: #metaverse_video" geometry="">
+        </a-plane>
+        
+        <!-- ⏹ Stop -->
+        <a-plane position="1.32132 0 0" width="0.3" height="0.3" color="white" class="interactive" stop-video="target: #metaverse_video" material="" geometry="">
+        </a-plane>
+      </a-entity>
+
     </a-entity>
 
 
-    <a-text id="social_title" value="Social Presence" text="width: 11.66; letterSpacing: 5; negate: false" position="0.44849 1.7 -19.89"></a-text>
-    
-    <a-entity id="Quote5" position="8.96973 1.7 -9.887" rotation="0 -90 0">
+    <a-text id="social_title" value="Social Presence" text="width: 11.66; letterSpacing: 5; negate: false" position="-1.77906 1.7 -19.89"></a-text>
+
+    <a-entity id="Quote5" position="5.62312 1.72707 -19.43914" rotation="">
       <a-entity text="color: white; letterSpacing: 5; lineHeight: 60; value: Each reality medium strives to achieve presence, and each one falls short.; width: 4.22; wrapCount: 45.39; align: center" position="">
       </a-entity>
     </a-entity>
-    
+
     <a-entity id="Absence" position="-8.95734 3.35582 -10.43416" rotation="0 90 0">
       <a-entity text="color: white; letterSpacing: 2.58; lineHeight: 60; value: These definitions circle around one core idea:; width: 3.42; wrapCount: 27.94; anchor: left; baseline: top" position="-0.42106 -0.1706 0">
       </a-entity><a-entity text="color: white; letterSpacing: 3; lineHeight: 60; value: that; width: 4.06; wrapCount: 32; anchor: left; baseline: bottom" position="-0.38346 -1.263 0">
@@ -174,18 +210,35 @@
       </a-entity>
     </a-entity>
 
+    <!-- Space 2 -->
 
-     <a-entity id="Milk_video" position="-27.38 2.8 2.889" rotation="0 90 0">
-      <a-video src="#Milk_vid" width="6" height="4" material="" geometry="" position="3.2533 0 0"></a-video> 
+    <a-entity id="Milk_video_ent" position="-27.38 2.8 2.889" rotation="0 90 0">
+      <a-video id="Milk_video" src="#Milk_vid" width="6" height="4" material="" geometry="" position="3.79724 -0.08989 0"></a-video> 
+
+      <a-entity class="vid_player" position="-0.5712 -1.90152 -0.01665" scale="0.8 0.8 0.8">
+        <a-triangle id="tri" position="0.0036 0 0" height="0.3" color="white" rotation="0 0 -90" class="interactive" event-set__click="_event: click; _target: #Milk_video; visible: true" play-video="target: #Milk_video" material="" geometry="" scale="0.3 0.3 0.3"></a-triangle>
+        
+        <a-plane position="0.4 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+        <a-plane position="0.55 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+        
+        <!-- pause invisible -->
+        <a-plane position="0.475 0 0" width="0.25" height="0.35" material="opacity: 0.001; transparent: true" class="interactive" pause-video="target: #Milk_video" geometry="">
+        </a-plane>
+        
+        <!-- ⏹ Stop -->
+        <a-plane position="1.32132 0 0" width="0.3" height="0.3" color="white" class="interactive" stop-video="target: #Milk_video" material="" geometry="">
+        </a-plane>
+      </a-entity>
    </a-entity>
    
-   <a-image id="Cloud_img" src="#Cloud_img_src" position="-27.38 1.69332 7.67676" rotation="0 90 0" scale="2 2 2" material="" geometry="width: 0.8"></a-image>
+   <a-image id="Cloud_img" src="#Cloud_img_src" position="-27.38 1.81826 8.29947" rotation="0 90 0" scale="2 2 2" material="" geometry="width: 0.8"></a-image>
+   <a-gltf-model id="Cloud_img_frame" src="#frame" position="-27.39614 1.81826 8.29919" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" rotation="0 -90 90" scale="1.66 1.16 1"></a-gltf-model>
 
-   <a-entity id="Milk_info" position="-27.39488 2.885 8.04544" rotation="0 90 0">
-    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Ultimate Empathy Machine; width: 4.04; anchor: left; wrapCount: 27.72" position="-0.51301 0.34789 0">
+   <a-entity id="Milk_info" position="-27.39488 2.885 8.63315" rotation="0 90 0">
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Ultimate Empathy Machine; width: 4.04; anchor: left; wrapCount: 27.72" position="-0.63999 0.45326 0">
     </a-entity>
-    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: 360 degree film Clouds Over Sidra created by Chris Milk and Gabo Arora shows the life of Syrian refugees in Za'atari camp in Jordan. The camera follows 12-year old Sidra in her everyday life, allowing the users to be present with Sidra.; width: 2.91; anchor: left; wrapCount: 45.9" position="1.54258 -0.06729 0">
-    </a-entity><a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: When you are inside of the headset . . . you see full 360 degrees, in all directions. And when you are sitting there in her room, watching her, you are not watching it through a television screen, you are not watching it through a window, you are sitting there with her. When you look down, you are sitting on the same ground that she is sitting on. And because of that, you feel her humanity in a deeper way. You empathize with her in a deeper way. (Milk 2015); width: 2.61; anchor: left; wrapCount: 51.22" position="2.44735 -0.96439 0">
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: 360 degree film Clouds Over Sidra created by Chris Milk and Gabo Arora shows the life of Syrian refugees in Za'atari camp in Jordan. The camera follows 12-year old Sidra in her everyday life, allowing the users to be present with Sidra.; width: 2.91; anchor: left; wrapCount: 45.9" position="1.45647 -0.00502 0">
+    </a-entity><a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: When you are inside of the headset . . . you see full 360 degrees, in all directions. And when you are sitting there in her room, watching her, you are not watching it through a television screen, you are not watching it through a window, you are sitting there with her. When you look down, you are sitting on the same ground that she is sitting on. And because of that, you feel her humanity in a deeper way. You empathize with her in a deeper way. (Milk 2015); width: 2.61; anchor: left; wrapCount: 51.22" position="2.02154 -0.96439 0">
     </a-entity>
   </a-entity>
 
@@ -198,39 +251,84 @@
     </a-entity>
   </a-entity>
 
-  <a-entity id="Nonnie_video" position="-27.38 2.8 -13.34445" rotation="0 90 0">
-    <a-video src="#Nonnie_vid" width="6" height="4" material="" geometry="" position="2.72693 0 0"></a-video>
+  <a-entity id="Nonnie_video_ent" position="-27.38 2.8 -13.34445" rotation="0 90 0">
+    <a-video id="Nonnie_video" src="#Nonnie_vid" width="6" height="4" material="" geometry="" position="2.72693 0 0"></a-video>
+
+    <a-entity class="vid_player" position="6.65255 -1.67044 0.66576" scale="0.8 0.8 0.8" rotation="0 -90 0">
+      <a-triangle id="tri" position="0.0036 0 0" height="0.3" color="white" rotation="0 0 -90" class="interactive" event-set__click="_event: click; _target: #Nonnie_video; visible: true" play-video="target: #Nonnie_video" material="" geometry="" scale="0.3 0.3 0.3"></a-triangle>
+      
+      <a-plane position="0.4 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+      <a-plane position="0.55 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+      
+      <!-- pause invisible -->
+      <a-plane position="0.475 0 0" width="0.25" height="0.35" material="opacity: 0.001; transparent: true" class="interactive" pause-video="target: #Nonnie_video" geometry="">
+      </a-plane>
+      
+      <!-- ⏹ Stop -->
+      <a-plane position="1.32132 0 0" width="0.3" height="0.3" color="white" class="interactive" stop-video="target: #Nonnie_video" material="" geometry="">
+      </a-plane>
+    </a-entity>
  </a-entity>
 
- <a-entity id="Nonnie_info" position="-24.02043 2.15759 -19.90428" rotation="">
+ <a-entity id="Nonnie_info" position="-23.75191 2.15759 -19.90428" rotation="">
   <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: The future of news?; width: 4.04; anchor: left; wrapCount: 27.72" position="-1.48273 0.52603 0">
   </a-entity>
   <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Ted Talk called 'The future of news?''  introduces a new form of journalism where Virtual Reality technology is used to put audience inside the stories. In her work, she created VR stories about imprisonment in Guantanamo and hunger in Los Angeles to induce empathy in the audience.; width: 3.4; anchor: left; wrapCount: 45.9" position="-1.46382 -0.06729 0">
   </a-entity>
 </a-entity>
 
-  <a-entity id="cybersickness" position="-9.41 2.20625 -17.043" rotation="0 -90 0">
-    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Cybersickness and the negation of presence; width: 4.04; anchor: left; wrapCount: 27.72; align: right" position="-2.35521 0.96417 0">
+<a-entity id="cybersickness" position="-9.41 2.60088 -17.043" rotation="0 -90 0">
+  <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Cybersickness and the negation of presence; width: 4.04; anchor: left; wrapCount: 27.72; align: right" position="-2.35521 0.96417 0">
+  </a-entity>
+  <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: The term cybersickness, or visually induced motion sickness, has been coined to describe symptoms including headache, nausea, eye strain, dizziness, fatigue, or even vomiting that may occur during or after exposure to a virtual environment. Cybersickness is visceral evidence that VR is not the medium to end all media. Cybersickness reminds the susceptible user of the medium in a powerful way. Nausea replaces astonishment.; width: 3.4; anchor: left; wrapCount: 45.9; align: right" position="-1.68291 0.19244 0">
+  </a-entity>
+</a-entity>
+
+  <a-entity id="Rollercoaster_video_ent" position="-9.41 2.78683 -11.775" rotation="0 -90 0">
+    <a-video id="Rollercoaster_video" src="#Rollercoaster_vid" width="6" height="4" material="" geometry=""></a-video>
+    <a-entity class="vid_player" position="-4.74596 -1.89413 0.00793" scale="0.8 0.8 0.8">
+      <a-triangle id="tri" position="0.0036 0 0" height="0.3" color="white" rotation="0 0 -90" class="interactive" event-set__click="_event: click; _target: #Rollercoaster_video; visible: true" play-video="target: #Rollercoaster_video" material="" geometry="" scale="0.3 0.3 0.3"></a-triangle>
+      
+      <a-plane position="0.4 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+      <a-plane position="0.55 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+      
+      <!-- pause invisible -->
+      <a-plane position="0.475 0 0" width="0.25" height="0.35" material="opacity: 0.001; transparent: true" class="interactive" pause-video="target: #Rollercoaster_video" geometry="">
+      </a-plane>
+      
+      <!-- ⏹ Stop -->
+      <a-plane position="1.32132 0 0" width="0.3" height="0.3" color="white" class="interactive" stop-video="target: #Rollercoaster_video" material="" geometry="">
+      </a-plane>
     </a-entity>
-    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: The term cybersickness, or visually induced motion sickness, has been coined to describe symptoms including headache, nausea, eye strain, dizziness, fatigue, or even vomiting that may occur during or after exposure to a virtual environment. Cybersickness is visceral evidence that VR is not the medium to end all media. Cybersickness reminds the susceptible user of the medium in a powerful way. Nausea replaces astonishment.; width: 3.4; anchor: left; wrapCount: 45.9; align: right" position="-1.68291 0.19244 0">
-    </a-entity>
   </a-entity>
 
-  <a-entity id="Rollercoaster_video" position="-9.41 2.78683 -11.775" rotation="0 -90 0">
-    <a-video src="#Rollercoaster_vid" width="6" height="4" material="" geometry=""></a-video>
-  </a-entity>
-
-  <a-entity id="RichiePlank_video" position="-9.41 2.957 5.14328" rotation="0 -90 0">
-    <a-video src="#Plank_vid" width="6" height="4" material="" geometry="" position=""></a-video>
-  </a-entity>
-
-  <a-entity id="Richie_info" position="-9.4 1.61241 0.39939" rotation="-180 90 -180">
+  <a-entity id="Richie_info" position="-9.4 1.91549 0.39939" rotation="-180 90 -180">
     <a-entity text="color: white; letterSpacing: 4.38; baseline: top; lineHeight: 55; value: Richie's Plank; width: 2.55; anchor: left; wrapCount: 27.72" position="">
     </a-entity>
     <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Plank Experience; width: 2.5; anchor: left; wrapCount: 32.24" position="0 -0.32173 0">
     </a-entity>
   </a-entity>
 
+
+  <a-entity id="RichiePlank_video_ent" position="-9.41 2.957 5.14328" rotation="0 -90 0">
+    <a-video id="RichiePlank_video" src="#Plank_vid" width="6" height="4" material="" geometry="" position=""></a-video>
+    <a-entity class="vid_player" position="-4.60244 -1.89413 0.00793" scale="0.8 0.8 0.8">
+      <a-triangle id="tri" position="0.0036 0 0" height="0.3" color="white" rotation="0 0 -90" class="interactive" event-set__click="_event: click; _target: #RichiePlank_video; visible: true" play-video="target: #RichiePlank_video" material="" geometry="" scale="0.3 0.3 0.3"></a-triangle>
+      
+      <a-plane position="0.4 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+      <a-plane position="0.55 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+      
+      <!-- pause invisible -->
+      <a-plane position="0.475 0 0" width="0.25" height="0.35" material="opacity: 0.001; transparent: true" class="interactive" pause-video="target: #RichiePlank_video" geometry="">
+      </a-plane>
+      
+      <!-- ⏹ Stop -->
+      <a-plane position="1.32132 0 0" width="0.3" height="0.3" color="white" class="interactive" stop-video="target: #RichiePlank_video" material="" geometry="">
+      </a-plane>
+    </a-entity>
+  </a-entity>
+
+ 
   <a-entity id="Pit_Experiment" position="-12.12469 2.50541 9.943" rotation="-180 0 -180">
     <a-entity text="color: white; letterSpacing: 3.2; baseline: top; lineHeight: 55; value: Pit Experiement; width: 6.17; anchor: left; wrapCount: 27.72" position="-1.5102 0.7862 0">
     </a-entity>
@@ -239,7 +337,11 @@
     </a-entity>
   </a-entity>
 
-  <a-image id="PitAR_img" src="#PitAR_img_src" position="-19.29033 2.38179 9.99307" rotation="-180 0 -180" scale="2.34 2.74 2" material="" geometry="width: 0.8"></a-image>
+  <a-image id="PitAR_img" src="#PitAR_img_src" position="-19.28373 2.38179 9.89385" rotation="-180 0 -180" scale="2.34 2.74 2" material="" geometry="width: 0.8"></a-image>
+
+  <a-gltf-model id="PitAR_img_frame" src="#frame" position="-19.27715 2.36756 9.94989" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" rotation="0 0 90" scale="2.38 1.33 1"></a-gltf-model>
+
+
 
 <a-entity id="Pit_AR" position="-22.31237 3.031 9.993" rotation="-180 0 -180">
     <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Presence in AR; width: 6.27; anchor: left; wrapCount: 27.72" position="-1.51731 0.69385 0">
@@ -256,43 +358,79 @@
   </a-entity>
 
   <!-- Space 3: Aura -->
-  <a-entity id="Aura" position="-27.385 2.88304 -25.9407" rotation="0 90 0">
-    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Aura; width: 8.92; anchor: left; wrapCount: 27.72" position="-2.35521 0.96417 0">
+  <a-entity id="Aura" position="-27.385 2.5894 -29.47053" rotation="0 90 0">
+    <a-entity text="color: white; letterSpacing: 0.99; baseline: top; lineHeight: 55; value: Portal \n to Acropolis; width: 1.77; anchor: left; wrapCount: 10.73; align: center" position="-7.37937 1.2774 0">
     </a-entity>
-    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: In 1930s, Walter Benjamin introduced the concept of aura in The Work of Art in the Age of Mechanical Reproduction.        Aura is the here and now that work possesses because of its unique history of production and transmission. \n\n       AR applications are not perfect reproductive technologies, as some draw on the physical and cultural uniquesness, the here and now of particular places.; width: 4.97; anchor: left; wrapCount: 57.94" position="-2.31156 0.26278 0">
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Aura; width: 21.98; anchor: left; wrapCount: 27.72" position="-3.99803 1.45282 0">
     </a-entity>
-  </a-entity>
-
-  <a-entity id="Terracotta_video" position="-27.385 2.957 -37.39871" rotation="0 90 0">
-    <a-video src="#Terracotta_vid" width="6" height="4" material="" geometry="" position=""></a-video>
-  </a-entity>
-
-  <a-entity id="TerraCotta" position="-27.385 2.12477 -42.12734" rotation="0 90 0">
-    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Terracotta Warriors AR; width: 4.04; anchor: left; wrapCount: 27.72; align: center" position="-1.16808 0.71088 0">
-    </a-entity>
-    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: The Franklin Institute in Philadelphia offered a mobile AR experience for their Terracotta Warrior exhibition. The app allowed visitors to use their smartphones to scan items and view various AR content to learn  more about the history behind the clay soldiers.; width: 3.64; anchor: left; wrapCount: 45.9; align: center" position="-0.88143 0.19244 0">
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: In 1930s, Walter Benjamin introduced the concept of aura in The Work of Art in the Age of Mechanical Reproduction. Aura is the here and now that work possesses because of its unique history of production and transmission.; width: 4.9; anchor: left; wrapCount: 46.14" position="-3.81766 0 0">
+    </a-entity><a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: AR applications are not perfect reproductive technologies, as some draw on the physical and cultural uniquesness, the here and now of particular places.; width: 4.2; anchor: left; wrapCount: 38.55" position="1.53124 0 0">
     </a-entity>
   </a-entity>
 
-  <a-image id="Terracotta_img" src="#Terracotta_img_src" position="-27.385 2.53097 -46.92823" rotation="0 90 0" scale="3 3 1" geometry="width: 0.8" material=""></a-image>
-
-
-  <a-entity id="Quote4" position="-18.4926 6.59331 -50.29318" rotation="">
-    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value:   R experiences generally lack aura, but AR experiences for cultural heritage can borrow or even enhance the aura of place.; width: 3.4; anchor: left; wrapCount: 45.9; align: right" position="-1.68291 0.19244 0">
+  <a-entity id="Terracotta_video_ent" position="-27.385 2.957 -37.78541" rotation="0 90 0">
+    <a-video id="Terracotta_video" src="#Terracotta_vid" width="6" height="4" material="" geometry="" position="0.85189 0 0"></a-video>
+    <a-entity class="vid_player" position="4.42339 -1.85257 0.05105" scale="0.8 0.8 0.8">
+      <a-triangle id="tri" position="0.0036 0 0" height="0.3" color="white" rotation="0 0 -90" class="interactive" event-set__click="_event: click; _target: #Terracotta_video; visible: true" play-video="target: #Terracotta_video" material="" geometry="" scale="0.3 0.3 0.3"></a-triangle>
+      
+      <a-plane position="0.4 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+      <a-plane position="0.55 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+      
+      <!-- pause invisible -->
+      <a-plane position="0.475 0 0" width="0.25" height="0.35" material="opacity: 0.001; transparent: true" class="interactive" pause-video="target: #Terracotta_video" geometry="">
+      </a-plane>
+      
+      <!-- ⏹ Stop -->
+      <a-plane position="1.32132 0 0" width="0.3" height="0.3" color="white" class="interactive" stop-video="target: #Terracotta_video" material="" geometry="">
+      </a-plane>
     </a-entity>
   </a-entity>
 
-  <a-image id="Gaudi_img" src="#Gaudi_img_src" position="-23.91739 2.16327 -50.22" rotation="" scale="1.65 1.94 1" geometry="width: 1.39" material=""></a-image>
+  <a-entity id="TerraCotta" position="-27.385 2.56916 -42.08699" rotation="0 90 0">
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Terracotta Warriors AR; width: 4.04; anchor: left; wrapCount: 27.72" position="0 0.42082 0">
+    </a-entity>
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: The Franklin Institute in Philadelphia offered a mobile AR experience for their Terracotta Warrior exhibition. The app allowed visitors to use their smartphones to scan items and view various AR content to learn  more about the history behind the clay soldiers.; width: 3.64; anchor: left; wrapCount: 45.9" position="">
+    </a-entity>
+  </a-entity>
 
-  <a-entity id="Gaudi_info" protation="" position="-13.06281 1.80724 -50.22">
+  <a-image id="Terracotta_img" src="#Terracotta_img_src" position="-27.34138 2.53116 -47.48372" rotation="0 90 0" scale="3 3 1" geometry="width: 0.8" material=""></a-image>
+
+<a-gltf-model id="Terracotta_img_frame" src="#frame" position="-27.36053 2.51932 -47.47723" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" rotation="0 -90 90" scale="2.54 1.61 1"></a-gltf-model>
+
+
+  <a-entity id="Quote4" position="-22.3371 2.12554 -20.40952" rotation="0 180 0">
+    <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: AR experiences generally lack aura, but AR experiences for cultural heritage can borrow or even enhance the aura of place.; width: 4.14; anchor: left; wrapCount: 45.9; align: center" position="">
+    </a-entity>
+  </a-entity>
+
+  <a-image id="Gaudi_img" src="#Gaudi_img_src" position="-23.44152 1.87008 -50.20821" rotation="" scale="1.65 1.94 1" geometry="width: 1.39" material=""></a-image>
+
+<a-gltf-model id="Gaudi_img_frame" src="#frame" position="-23.43502 1.87072 -50.23454" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" rotation="0 180 90" scale="1.68 1.56 1"></a-gltf-model>
+  
+<a-entity id="Gaudi_info" protation="" position="-13.06281 2.18299 -50.39138">
     <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Gaudí's Casa Batlló with AR; width: 4.04; anchor: left; wrapCount: 27.72; align: right" position="-2.08961 0.71426 0">
     </a-entity>
     <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: Casa Batlló, one of the masterpieces of Antoni Gaudí, can be experienced with the mobile AR, which visualizes the reconstructed interior and the design inspirations through 3D animations.; width: 3.64; anchor: left; wrapCount: 45.91" position="-1.68291 0.19244 0">
     </a-entity>
   </a-entity>
 
-  <a-entity id="Gaudi_video" position="-14.109 2.957 -50.278" rotation="">
-    <a-video src="#Gaudi_vid" width="6" height="4" material="" geometry="" position="-4.349 0 0"></a-video>
+
+  <a-entity id="Gaudi_video_ent" position="-14.109 2.957 -50.278" rotation="">
+    <a-video id="Gaudi_video" src="#Gaudi_vid" width="6" height="4" material="" geometry="" position="-4.349 0 -0.10655"></a-video>
+    <a-entity class="vid_player" position="-0.43986 -1.87932 -0.11366" scale="0.8 0.8 0.8">
+      <a-triangle id="tri" position="0.0036 0 0" height="0.3" color="white" rotation="0 0 -90" class="interactive" event-set__click="_event: click; _target: #Gaudi_video; visible: true" play-video="target: #Gaudi_video" material="" geometry="" scale="0.3 0.3 0.3"></a-triangle>
+      
+      <a-plane position="0.4 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+      <a-plane position="0.55 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+      
+      <!-- pause invisible -->
+      <a-plane position="0.475 0 0" width="0.25" height="0.35" material="opacity: 0.001; transparent: true" class="interactive" pause-video="target: #Gaudi_video" geometry="">
+      </a-plane>
+      
+      <!-- ⏹ Stop -->
+      <a-plane position="1.32132 0 0" width="0.3" height="0.3" color="white" class="interactive" stop-video="target: #Gaudi_video" material="" geometry="">
+      </a-plane>
+    </a-entity>
   </a-entity>
 
   <a-entity id="PlaceAndSpace_title" position="-9.439 2.9527 -47.21897" rotation="0 -90 0">
@@ -301,39 +439,54 @@
     </a-entity>
   </a-entity>
 
-  <a-image id="Space_img" src="#Space_img_src" position="-9.439 3.5968 -39.70515" rotation="0 -90 0" scale="5 5 1" geometry="" material=""></a-image>
+  <a-image id="Space_img" src="#Space_img_src" position="-9.48603 3.5968 -39.57212" rotation="0 -90 0" scale="5 5 1" geometry="" material=""></a-image>
+
+  <a-gltf-model id="Space_img_frame" src="#frame" position="-9.47521 3.64292 -39.579" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" rotation="0 90 90" scale="4.32 3.45 1"></a-gltf-model>
 
   <a-entity id="AR_Quote1" position="-9.52552 2.91512 -32.20091" rotation="-180 90 -180">
     <a-entity text="color: white; letterSpacing: 5; lineHeight: 60; value: When AR is used for visiting a museum, a historic home, or an archaeological site, it is taking advantage of the aura of those places.; width: 6; wrapCount: 45.91; align: center" position="">
     </a-entity>
   </a-entity>
 
-<a-entity id="AR_Quote2" position="-9.40516 2.93897 -25.3745" rotation="-180 90 -180">
-    <a-entity text="color: white; letterSpacing: 5; lineHeight: 60; value: AR always generates presence, because the user is never cut off from the environment... Presence also figures differently in different kinds of AR experiences.; width: 6; wrapCount: 45.91; align: center" position="0.71956 -0.20975 0">
+  <a-entity id="AR_Quote2" position="-9.40516 2.93897 -25.3745" rotation="-180 90 -180">
+    <a-entity text="color: white; letterSpacing: 5; lineHeight: 60; value: AR always generates presence, because the user is never cut off from the environment.; width: 6; wrapCount: 45.91; align: center" position="0.71956 0.15088 0">
+    </a-entity>
+    <a-entity text="color: white; letterSpacing: 5; lineHeight: 60; value: Presence also figures differently in different kinds of AR experiences.; width: 6; wrapCount: 45.91; align: center" position="0.71956 -0.75584 0">
     </a-entity>
   </a-entity>
 
   
 </a-entity>
 
+<a-entity id="panoramas" position="0 0 0.790">
+<a-sphere class="panorama-ball" id="Panorama_01" position="6.9365 2.119 -16.05356" radius="1.5" material="src: ../../assets/scene/5-presence/mars_Panorama.jpg; side: double" geometry="" resize-on-proximity="target: #cameraRig; normalRadius: 1.5; hideOthersSelector: .hide-on-zoom, .panorama-ball" animation="property: position; dir: alternate; easing: easeInOutSine; loop: true; to: 6.9365 2.319 -16.05356" rotation="0 -90 0"></a-sphere>
+
+<a-sphere class="panorama-ball" id="Panorama_02" position="6.9365 2.1195 -12.1241" radius="1.5" material="src: ../../assets/scene/5-presence/realism_Panorama.jpg; side: double" geometry="" resize-on-proximity="target: #cameraRig; normalRadius: 1.5; hideOthersSelector: .hide-on-zoom, .panorama-ball" animation="property: position; dir: alternate; easing: easeInOutSine; loop: true; to: 6.9365 2.319 -12.1241" rotation="0 -90 0"></a-sphere>
+
+<a-sphere class="panorama-ball" id="Panorama_03" position="6.9365 2.119 -8.44765" radius="1.5" material="src: ../../assets/scene/5-presence/van_gogh_Panorama.jpg; side: double" geometry="" resize-on-proximity="target: #cameraRig; normalRadius: 1.5; hideOthersSelector: .hide-on-zoom, .panorama-ball" animation="property: position; dir: alternate; easing: easeInOutSine; loop: true; to: 6.9365 2.319 -8.44765" rotation="0 -90 0"></a-sphere>
+</a-entity>
 
 
-
-
+  <a-link id="portal" title=" " scale="1.2 1.2 1.2" position="-27.22382 1.69697 -23.114" rotation="0 90 0" image="#homeThumbnail" proximity-link-opener="target: #cameraRig; href: https://colinfizgig.github.io/Parthenon_Project/; minDistance: 2" geometry="primitive: circle; segments: 64" material="shader: portal; pano: http://127.0.0.1:5501/assets/scene/5-presence/acropolis.png; side: double" link="">
+    <!-- <a-entity text="color: white; align: center; font: kelsonsans; value: Acropolis; width: 4" position="0 1.5 0"></a-entity> -->
+    <a-entity geometry="primitive: sphere; segmentsWidth: 64; segmentsHeight: 64; phiLength: 180; thetaLength: 360" material="shader: portal; borderEnabled: 0; pano: [object HTMLImageElement]; side: back" rotation="0 180 0" position="" visible="false"></a-entity>
+    <a-entity geometry="primitive: sphere; radius: 10; segmentsWidth: 64; segmentsHeight: 64" material="shader: portal; borderEnabled: 0; pano: [object HTMLImageElement]; side: back" visible="false"></a-entity>
+    <!-- <a-entity text="color: white; align: center; font: kelsonsans; value: Acropolis; width: 4" position="0 1.5 0"></a-entity> -->
+    <a-entity geometry="primitive: sphere; segmentsWidth: 64; segmentsHeight: 64; phiLength: 180; thetaLength: 360" material="shader: portal; borderEnabled: 0; pano: [object HTMLImageElement]; side: back" rotation="0 180 0" position="" visible="false"></a-entity>
+    <a-entity geometry="primitive: sphere; radius: 10; segmentsWidth: 64; segmentsHeight: 64" material="shader: portal; borderEnabled: 0; pano: [object HTMLImageElement]; side: back" visible="false"></a-entity>
+  </a-link>
 
     </a-scene>
 
 
     <script> 
-    // document.addEventListener('click', () => {
-    // const video = document.querySelector('#treehugger_vid');
-    // video.play().catch(err => {
-    //   console.warn('Autoplay blocked. User must interact before video can play.');
-    // });
-  });
+ 
+    
     
     </script>
-    <!-- <script src="video-player.js"></script> -->
+    <script src="video_player.js"></script>
+    <script src="panorama.js"></script>
+    <script src="portal.js"></script>
 
-</body>
+  </body>
 </html>

@@ -58,14 +58,13 @@
       <a-mixin id="blink" blink-controls="rotateOnTeleport:false;cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities:.navmesh;"></a-mixin>
 
       
-      <a-asset-item id="frame" src="../../assets/scene/1-realitymedia/book_anim.glb
-      "></a-asset-item>
+      <a-asset-item id="frame" src="../../assets/scene/1-realitymedia/simple_picture.glb"></a-asset-item>
 
       <!-- Onboarding -->
       <a-asset-item id="onboarding" src="../../assets/scene/1-realitymedia/onboarding_clean.glb"></a-asset-item>
       <a-asset-item id="book" src="../../assets/scene/1-realitymedia/book_anim.glb"></a-asset-item>
           
-      <image id="Lumiere_img"src="../../assets/scene/1-realitymedia/Laciotat.png">
+      <image id="Lumiere_img"src="../../assets/scene/5-presence/Laciotat.png">
       <image id="Chain_diagram_img"src="../../assets/scene/1-realitymedia/diagram_01.jpg">
       <image id="VirtualityContinuum_img"src="../../assets/scene/1-realitymedia/Continuum.png">
 
@@ -105,7 +104,7 @@
       <a-gltf-model src="#onboarding" id="onboarding"position="-26.5 0 -9"></a-gltf-model>
       <!-- <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false"></a-gltf-model>  -->
 
-      <a-gltf-model src="#book" id="book_model" position="-4.68164 1.59002 -9.0211" gltf-model="assets/Onboarding/book_anim.glb" rotation="-8.460000000000003 91.20052 -3.14"></a-gltf-model>
+      <a-gltf-model src="#book" id="book_model" position="-4.68164 1.59002 -9.0211" gltf-model="../../assets/scene/1-realitymedia/book_anim.glb" rotation="-8.460000000000003 91.20052 -3.14"></a-gltf-model>
 
       <a-sphere color="black" radius="0.005" id="cursor" material="shader:flat" visible="false"></a-sphere>
 
@@ -152,7 +151,7 @@
   
      <a-entity id="Chain_diagram" position="4.11809 1.3523 -0.63199" rotation="0 -90 0">
       <a-image src="#Chain_diagram_img" material="" position="-0.02905 0.66416 0" geometry="height: 0.92; width: 1.53" scale="0.7 0.7 0.7"></a-image>
-      <a-gltf-model src="#frame" position="-0.02905 0.64822 -0.07299" gltf-model="assets/General/simple_picture.glb" rotation="0 -180 90" scale="0.57 0.81 1"></a-gltf-model>
+      <a-gltf-model src="#frame" position="-0.02905 0.64822 -0.07299" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" rotation="0 -180 90" scale="0.57 0.81 1"></a-gltf-model>
 
       <a-entity position="-0.78711 0.13934 0" text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: VR closely resembles film in that you make the decision to step outside your daily life for a period of time and into a fashioned reality. 
       AR functions like television in that they both are consumed casually and provide hybrid experiences.; width: 1.56; anchor: left; wrapCount: 45.6">
@@ -166,7 +165,7 @@
 
       <a-entity id="Lumiere" position="4.19107 1.901 -13.3" rotation="0 -90 0">
         <a-image src="#Lumiere_img" material="" geometry="height: 1.55; width: 2.81" position="4.60818 -0.42461 0.063" scale="0.8 0.8 0.8"></a-image>
-        <a-gltf-model src="#frame" position="4.61965 -0.4059 0.05312" gltf-model="assets/General/simple_picture.glb" rotation="0 -180 90" scale="0.99 1.38 1"></a-gltf-model>
+        <a-gltf-model src="#frame" position="4.61965 -0.4059 0.05312" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" rotation="0 -180 90" scale="0.99 1.38 1"></a-gltf-model>
         <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: As film historian Tom Gunning argues, the audience probably did not believe in the reality of the train. They were astonished, not fooled, because they had never seen a medium so real. Yet they still new they were experiencing a medium. ; width: 1.48; anchor: left; wrapCount: 35.43" position="0 0.17415 0">
         </a-entity><a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: This knowing astonishment is what we call the La Ciotat effect, and it is the effect  that each reality medium has. Each reality medium mediates and remediates. It offers a new representation of the world that we implicitly compare  to our experience of the world in itself, but also through other media.; width: 1.48; anchor: left; wrapCount: 35.43" position="1.66667 0.17415 0">
         </a-entity>
@@ -177,7 +176,7 @@
 
       <a-entity id="VirtualityContinuum" position="4.20064 2.10507 -6.72829" rotation="0 -90 0">
         <a-image src="#VirtualityContinuum_img" material="" geometry="height: 1.55; width: 2.81" position="1.20766 -0.50199 0.00368" scale="0.75707 0.58951 5.63979"></a-image>
-        <a-gltf-model src="#frame" position="1.20732 -0.48797 -0.0057" gltf-model="assets/General/simple_picture.glb" rotation="0 -180 90" scale="0.84 1.45 1"></a-gltf-model>
+        <a-gltf-model src="#frame" position="1.20732 -0.48797 -0.0057" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" rotation="0 -180 90" scale="0.84 1.45 1"></a-gltf-model>
         <a-entity text="color: white; letterSpacing: 5; baseline: top; lineHeight: 55; value: In the 1990s, when both VR and AR were still laboratory technologies, two researchers, Paul Milgram and Fumio Kishino, diagrammed what they called the virtuality continuum, a spectrum with the real environment the physical world at one end and the complete virtual environment at the other. Milgram and Kishino 1994. Milgram et al. 1995. They placed augmented reality and augmented virtuality as intermediate points between these endpoints.; width: 1.95; anchor: left; wrapCount: 41.75" position="2.54605 -0.0382 0">
         </a-entity>
         </a-entity>
