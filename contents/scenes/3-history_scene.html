@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--#region AFrame library and 3rd party components  -->
+        <script src="https://cdn.jsdelivr.net/npm/aframe@1.5.0/dist/aframe-master.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.4/dist/aframe-environment-component.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/components/sphere-collider.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/dist/physx.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls@0.4.3/dist/aframe-blink-controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.10/build/handy-controls.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.10/build/magnet-helpers.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe-htmlmesh@2.2.0/build/aframe-html.min.js"></script>
+        <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+
+        <script src="ar-shadow-helper.js"></script>
+        <script src="ar-cursor.js"></script>
+        <script src="simple-navmesh-constraint.js"></script>
+        <script src="model-utils.js"></script>
+        <!--#endregion -->
+      
+        <script src="navigation.js"></script>
+
+        <title>Reality Media - History Gallery</title>
+        <meta property="og:title" content="Reality Media" />
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                overflow: hidden;
+            }
+            a-scene {
+                width: 100% !important;
+                height: 100% !important;
+            }
+        </style>
+    </head>
+      
+    <a-scene inspector embedded resize
+    physx="autoLoad: true; delay: 1000; wasmUrl: https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/wasm/physx.release.wasm; useDefaultScene: false;"
+    webxr="overlayElement:#dom-overlay;"
+    background="color:skyblue;"
+    reflection="directionalLight:#dirlight;"
+    renderer="alpha:true;physicallyCorrectLights:true;colorManagement:true;exposure:1;toneMapping:ACESFilmic;"
+    ar-hit-test="target:#my-ar-objects;type:footprint;footprintDepth:0.2;"
+    shadow="type: pcfsoft"
+    xr-mode-ui="XRMode:xr"
+    id="mainScene"
+  >
+
+    <a-assets>
+      <a-mixin id="blink" blink-controls="rotateOnTeleport:false;cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities:.navmesh;"></a-mixin>
+
+      <a-asset-item id="frame" src="../../assets/scene/1-realitymedia/book_anim.glb
+      "></a-asset-item>
+
+    
+      <!-- buildings -->
+        <a-asset-item id="history_building" src="../../assets/scene/3-history/history_building.glb">
+        <a-asset-item id="navmesh-glb" src="../../assets/scene/3-history/history_floorplan.glb">
+
+        <!-- <video id="treehugger_vid"  loop="true" src="../../assets/scene/5-presence/videos/treehugger.mp4" crossorigin="anonymous" playsinline loop></video> -->
+
+        <!-- images -->
+        <img id="linear_src" src="../../assets/scene/3-history/LinearPerspective.jpg">
+        <img id="panorama_src" src="../../assets/scene/3-history/pano_barker_2.jpg">
+        <img id="obscura_src" src="../../assets/scene/3-history/camera_obscura.jpg">
+        <img id="obscura_src2" src="../../assets/scene/3-history/camera_obscura2.jpg">
+
+
+        
+    </a-assets>
+
+    <!-- camera -->
+    <a-entity
+      id="cameraRig"
+      simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;"
+      movement-controls="speed:0.15;camera:#head;"
+      position="0 -2.5 0" origin-on-ar-start>
+      
+      <!-- Player Position -->
+      <a-entity id="head"
+        camera="near:0.01;"
+        look-controls="pointerLockEnabled: false"
+        position="0 1.65 0">
+        <!-- <a-entity id="Acursor" cursor="rayOrigin: mouse" raycaster="objects: .interactive"></a-entity> -->
+        <a-entity
+        id="cursor"
+        cursor="rayOrigin: mouse"
+        raycaster="objects: .interactive"
+        position="0 0 -1">
+      </a-entity>
+
+      </a-entity>
+        <!-- start pos: position="0 1.65 0" -->
+        <!-- chapter 1: 29 1.65 -4.8 -->
+    </a-entity>
+
+     
+    <!-- ####################   -->
+    <!-- ########START#######   -->
+    <!-- ####################   -->
+
+
+    <!-- 1st floor -->
+    <a-entity id="History_Room"  class="hide-on-zoom" position="0 0 0">
+    <a-entity id="History_Buildings"  scale="1 1 1">
+        <a-gltf-model class="navmesh"  scale="1 1 1" src="#navmesh-glb" visible="false"></a-gltf-model>
+        <a-gltf-model src="#history_building"></a-gltf-model>
+    
+    </a-entity>
+
+    <a-entity id="Linear" position="-9.65904 0.04803 7.28951" rotation="0 121.0167077407617 0">
+        <a-entity position="0.4589 0.31934 0.03585" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: black; letterSpacing: 5; lineHeight: 55; value: Linear Perspective; baseline: top; width: 5.02; anchor: left; wrapCount: 44.31; xOffset: -0.94" rotation="0 -1.1040896712170962 0">
+        </a-entity><a-entity position="0.4589 0.62323 0.03585" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: #ababab; letterSpacing: 6.79; lineHeight: 55; value: 1430s; baseline: top; width: 3.22; anchor: left; wrapCount: 44.31; xOffset: -0.94" rotation="0 -1.1040896712170962 0">
+        </a-entity>
+        <a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: Linear perspective is a system developed by architects and painters to create an illusion of depth on a flat surface using vanishing points.; width: 1.89; anchor: left; wrapCount: 33.22" position="-0.46732 -0.09966 0">
+        </a-entity><a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: This technique was thought to resemble the way we see the world, as it imitates how rays of light reflect off objects in the world and can be focused on a surface.; width: 1.89; anchor: left; wrapCount: 33.22" position="-0.20339 -0.89706 0">
+        </a-entity>
+    </a-entity>
+
+    <a-entity id="Linear_img" position="-11.13449 -0.5387 4.51364" rotation="0 110.40671 0">
+        <a-image src="#linear_src" geometry="width: 0.8" material="" position="0 0 0.01254" scale="2 1.5 1"></a-image>
+         <a-gltf-model rotation="0 180 0" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" scale="1.43 1.08 1"></a-gltf-model>
+    </a-entity>
+
+    <a-entity id="Linear_img-2" position="-11.71611 -0.5387 2.26051" rotation="0 101.17671 0">
+        <a-image src="#linear_src" geometry="width: 0.8" material="" position="0 0 0.00899" scale=""></a-image>
+         <a-gltf-model rotation="0 180 0" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" scale="1.3 1.1 1"></a-gltf-model>
+    </a-entity>
+
+
+    <a-entity id="Panorama" position="-11.71298 0.04803 -1.97447" rotation="0 74.48671 0">
+        <a-entity position="0.4589 0.31934 0.03585" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: black; letterSpacing: 5; lineHeight: 55; value: Panorama; baseline: top; width: 5.02; anchor: left; wrapCount: 44.31; xOffset: -0.94" rotation="0 -1.1040896712170962 0">
+        </a-entity><a-entity position="0.4589 0.62323 0.03585" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: #ababab; letterSpacing: 6.79; lineHeight: 55; value: 1790; baseline: top; width: 3.22; anchor: left; wrapCount: 44.31; xOffset: -0.94" rotation="0 -1.1040896712170962 0">
+        </a-entity>
+        <a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: The panorama conceived by artist Robert Barker was one of the ways to represent reality at the end of the 18th century. Barker used perspective painting to create a panorama on a canvas stretched around the cylindrical surface.; width: 1.89; anchor: left; wrapCount: 31.46" position="-0.46732 -0.06 0.008">
+        </a-entity><a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: Viewers stood in the middle and experienced the scene in either direction. \n\n Therefore, the panoramas were fully immersive virtual environments consisting of a painted canvas.; width: 1.89; anchor: left; wrapCount: 31.28" position="1.69721 -0.0602 0.00239" rotation="0 -4.57 0">
+        </a-entity>
+    </a-entity>
+
+    <a-entity id="Panorama_img" position="-9.65478 -0.5387 -6.7718" rotation="0 55.41 0">
+        <a-image src="#panorama_src" geometry="width: 0.8" material="" position="0 0 0.01254" scale="3.08 2.58 1"></a-image>
+        <a-gltf-model rotation="0 180 0" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" scale="2.01 1.69 1"></a-gltf-model>
+   </a-entity>
+
+   <a-entity id="Obscura" position="4.66797 0.04803 -10.71031" rotation="0 -27.62 0">
+    <a-entity position="0.4589 0.31934 0.03585" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: black; letterSpacing: 5; lineHeight: 55; value: Camera Obscura; baseline: top; width: 5.02; anchor: left; wrapCount: 44.31; xOffset: -0.94" rotation="0 -1.1040896712170962 0">
+    </a-entity>
+    <a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: was originally a darkened room with a small hole that projected an inverted image of the outside scene on to the opposite wall. \n\n A later version (from the 17th century to the 19th) was a portable box, often with a lens to focus the light. ; width: 1.89; anchor: left; wrapCount: 33.22" position="-0.46732 -0.09966 0">
+</a-entity><a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: The image produced was ephemeral until in the 19th century the image could be captured on a chemically treated surface: the camera obscura became the photographic camera.; width: 1.89; anchor: left; wrapCount: 33.22" position="1.83008 -0.09966 0.02439" rotation="0 -8.460000000000003 0">
+</a-entity>
+</a-entity>
+
+<a-entity id="Obscura_img" position="9.32579 -0.5387 -7.22233" rotation="0 -52.03498 0">
+    <a-image src="#obscura_src2" geometry="width: 0.8" material="" position="0 0 0.0501" scale="3.78 1.52 1" rotation=""></a-image>
+     <a-gltf-model rotation="0 179.9998479605043 -90" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" scale="1.66 2 1" visible="" position="0 0.06351 0"></a-gltf-model>
+</a-entity>
+
+<a-entity id="Photography" position="11.05321 0.04803 -4.02594" rotation="0 -70.67 0">
+    <a-entity position="0.4589 0.31934 0.03585" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: black; letterSpacing: 5; lineHeight: 55; value: Photography; baseline: top; width: 5.02; anchor: left; wrapCount: 44.31; xOffset: -0.94" rotation="0 -1.1040896712170962 0">
+    </a-entity><a-entity position="0.4589 0.62323 0.03585" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: #ababab; letterSpacing: 6.79; lineHeight: 55; value: 1820; baseline: top; width: 3.22; anchor: left; wrapCount: 44.31; xOffset: -0.94" rotation="0 -1.1040896712170962 0">
+    </a-entity>
+    <a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: Joseph Nicéphore Niépce created the earliest surviving photograph in the 1820s, using a camera obscura to project an image onto a pewter plate. Photography was quickly recognized as a medium with a special claim to capturing the real.; width: 1.89; anchor: left; wrapCount: 33.22" position="-0.46732 -0.09966 0">
+</a-entity><a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: As the British pioneer Fox Talbot put in his illustrated essay, The Pencil of Nature, a photograph was an image “impressed by Nature’s hand.”; width: 1.89; anchor: left; wrapCount: 33.22" position="1.83008 -0.09966 0.02439" rotation="0 -8.460000000000003 0">
+</a-entity>
+</a-entity>
+
+<a-entity id="Photography_img" position="11.85909 -0.5387 1.37331" rotation="0 -97.15000000000002 0">
+    <a-image src="#obscura_src" geometry="width: 0.8" material="" position="0 0 0.03029" scale="3.48 2.42 1.01" rotation=""></a-image>
+     <a-gltf-model rotation="0 180 0" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" scale="2.26 1.66 1" visible=""></a-gltf-model>
+</a-entity>
+
+<a-entity id="Zoetrope" position="11.11456 0.04803 4.69207" rotation="0 -114.38 0">
+    <a-entity position="0.4702 0.31934 0.03585" text="font: https://cdn.aframe.io/fonts/KelsonSans.fnt; color: black; letterSpacing: 5; lineHeight: 55; value: Zoetrope; baseline: top; width: 5.02; anchor: left; wrapCount: 44.31; xOffset: -0.94" rotation=""></a-entity>
+    <a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: Dating from the 1830s, the zoetrope was one of the pre-filmic devices that produced the illusion of motion by displaying a sequence of drawing or photographs.; width: 2.31; anchor: left; wrapCount: 35.97" position="-0.50381 -0.11147 0" rotation="">
+    </a-entity><a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: It is consisted of a cylinder with vertical slits along the sides. The inner surface of the cylinder featured a row of sequential images.; width: 2.33; anchor: left; wrapCount: 37.01" position="-0.5006 -0.97011 -0.0105" rotation="">
+    </a-entity><a-entity text="color: black; letterSpacing: 5; baseline: top; lineHeight: 55; value: When the cylinder rotated at just the right speed, the viewer could look through one of the slits to experience the illusion of motion.encil of Nature, a photograph was an image “impressed by Nature’s hand.”; width: 2.42; anchor: left; wrapCount: 38.66" position="2.15371 -0.09966 0.08339" rotation="0 -12.19702 0">
+    </a-entity>
+</a-entity>
+    <!--
+    <a-entity id="treehugger_video_ent" position="-8.969 2.106 2.22023" rotation="0 90 0">
+      <a-video id="tree_video" src="#treehugger_vid" width="5" height="3" loop muted autoplay playsinline crossorigin="anonymous"></a-video>
+      
+      <a-entity class="vid_player" position="-4.17092 -1.25787 -0.02481" scale="0.8 0.8 0.8">
+        <a-triangle id="tri" position="0.0036 0 0" height="0.3" color="white" rotation="0 0 -90" class="interactive" event-set__click="_event: click; _target: #tree_video; visible: true" play-video="target: #tree_video" material="" geometry="" scale="0.3 0.3 0.3"></a-triangle>
+        
+        <a-plane position="0.4 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+        <a-plane position="0.55 0 0" width="0.05" height="0.3" color="white" material="" geometry=""></a-plane>
+        
+        <a-plane position="0.475 0 0" width="0.25" height="0.35" material="opacity: 0.001; transparent: true" class="interactive" pause-video="target: #tree_video" geometry="">
+        </a-plane>
+        
+        <a-plane position="1.32132 0 0" width="0.3" height="0.3" color="white" class="interactive" stop-video="target: #tree_video" material="" geometry="">
+        </a-plane>
+      </a-entity>
+    </a-entity>
+    -->
+
+
+   
+
+    <!-- Space 2 -->
+
+    
+   <!-- <a-image id="Cloud_img" src="#Cloud_img_src" position="-27.38 1.81826 8.29947" rotation="0 90 0" scale="2 2 2" material="" geometry="width: 0.8"></a-image>
+   <a-gltf-model id="Cloud_img_frame" src="#frame" position="-27.39614 1.81826 8.29919" gltf-model="../../assets/scene/1-realitymedia/simple_picture.glb" rotation="0 -90 90" scale="1.66 1.16 1"></a-gltf-model> -->
+      
+     
+  
+    </a-entity>
+
+
+    </a-scene>
+
+
+    <script> 
+ 
+    
+    
+    </script>
+    <script src="video_player.js"></script>
+    <script src="panorama.js"></script>
+    <script src="portal.js"></script>
+
+  </body>
+</html>
